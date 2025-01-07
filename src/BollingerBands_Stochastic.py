@@ -65,8 +65,8 @@ def get_bb_stoch_signal(data):
     buy_price, sell_price, bb_stoch_signal = bb_stoch_strategy(data['Close'], data['%k'], data['%d'], 
                                                                 data['upper_bb'], data['lower_bb'])
     
-    print("Buy Price: ", buy_price)
-    print("Sell Price: ", sell_price)
+    data['buy_price'] = buy_price
+    data['sell_price'] = sell_price
 
     # POSITION
     position = []

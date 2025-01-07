@@ -34,11 +34,11 @@ def get_rsi(close, lookback):
     up = []
     down = []
     for i in range(len(ret)):
-        if ret[i] < 0:
+        if ret.iloc[i] < 0:
             up.append(0)
-            down.append(ret[i])
+            down.append(ret.iloc[i])
         else:
-            up.append(ret[i])
+            up.append(ret.iloc[i])
             down.append(0)
     up_series = pd.Series(up)
     down_series = pd.Series(down).abs()
@@ -94,8 +94,8 @@ def get_bb_rc_rsi_signal(data):
     buy_price, sell_price, bb_kc_rsi_signal = bb_kc_rsi_strategy(data['Close'], data['upper_bb'], data['lower_bb'],
                                                             data['kc_upper'], data['kc_lower'], data['rsi_14'])
     
-    print("Buy Price: ", buy_price)
-    print("Sell Price: ", sell_price)
+    data['buy_price'] = buy_price
+    data['sell_price'] = sell_price
 
     # POSITION
     position = []

@@ -101,8 +101,8 @@ def get_adx_rsi_signal(data):
 
     buy_price, sell_price, adx_rsi_signal = adx_rsi_strategy(data['Close'], data['adx'], data['plus_di'], data['minus_di'], data['rsi_14'])
     
-    print("Buy Price: ", buy_price)
-    print("Sell Price: ", sell_price)
+    data['buy_price'] = buy_price
+    data['sell_price'] = sell_price
 
     # POSITION
     position = []

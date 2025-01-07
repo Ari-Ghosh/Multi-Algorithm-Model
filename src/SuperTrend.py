@@ -121,8 +121,8 @@ def get_st_signal(data):
     data = data[1:]
     buy_price, sell_price, st_signal = implement_st_strategy(data['Close'], data['st'])
 
-    print("Buy Price: ", buy_price)
-    print("Sell Price: ", sell_price)
+    data['buy_price'] = buy_price
+    data['sell_price'] = sell_price
 
     # POSITION
     position = []

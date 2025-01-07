@@ -12,11 +12,11 @@ def get_stoch_osc(high, low, close, k_lookback, d_lookback):
 
 # MACD CALCULATION
 def get_macd(price, slow, fast, smooth):
-    exp1 = price.ewm(span = fast, adjust = False).mean()
-    exp2 = price.ewm(span = slow, adjust = False).mean()
-    macd = pd.DataFrame(exp1 - exp2).rename(columns = {'close':'macd'})
-    signal = pd.DataFrame(macd.ewm(span = smooth, adjust = False).mean()).rename(columns = {'macd':'signal'})
-    hist = pd.DataFrame(macd['macd'] - signal['signal']).rename(columns = {0:'hist'})
+    exp1 = price.ewm(span=fast, adjust=False).mean()
+    exp2 = price.ewm(span=slow, adjust=False).mean()
+    macd = exp1 - exp2
+    signal = macd.ewm(span=smooth, adjust=False).mean()
+    hist = macd - signal
     return macd, signal, hist
 
 
@@ -59,14 +59,15 @@ def implement_stoch_macd_strategy(prices, k, d, macd, macd_signal):
 
 def get_stoch_macd_signal(data):
     data['%k'], data['%d'] = get_stoch_osc(data['High'], data['Low'], data['Close'], 14, 3)
-    data['macd'] = get_macd(data['Close'], 26, 12, 9)[0]
-    data['macd_signal'] = get_macd(data['Close'], 26, 12, 9)[1]
-    data['macd_hist'] = get_macd(data['Close'], 26, 12, 9)[2]
+    macd_values = get_macd(data['Close'], 26, 12, 9)
+    data['macd'] = macd_values[0]
+    data['macd_signal'] = macd_values[1]
+    data['macd_hist'] = macd_values[2]
     data = data.dropna()   
     buy_price, sell_price, stoch_macd_signal = implement_stoch_macd_strategy(data['Close'], data['%k'], data['%d'], data['macd'], data['macd_signal'])
 
-    print("Buy Signal: ", buy_price)
-    print("Sell Signal: ", sell_price)
+    data['buy_price'] = buy_price
+    data['sell_price'] = sell_price
 
     # POSITION
     position = []
