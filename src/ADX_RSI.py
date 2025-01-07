@@ -88,9 +88,6 @@ def adx_rsi_strategy(prices, adx, pdi, ndi, rsi):
 
 def get_adx_rsi_signal(data):
     plus_di, minus_di, adx = get_adx(data['High'], data['Low'], data['Close'], 14)
-    print(plus_di)
-    print(minus_di)
-    print(adx)
     data['plus_di'] = plus_di
     data['minus_di'] = minus_di
     data['adx'] = adx

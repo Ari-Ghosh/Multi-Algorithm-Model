@@ -8,11 +8,12 @@ from src.BollingerBands_Stochastic import get_bb_stoch_signal
 from src.Stochastics_MACD import get_stoch_macd_signal
 from src.SuperTrend import get_st_signal
 from src.WilliamsR_MACD import get_wr_macd_signal
+from src.OBV_MACD_RSI import get_obv_macd_rsi_signal
 
 def get_historical_data(symbol, start_date):
     df = yf.download(symbol, start=start_date)
-    df = df[['High', 'Low', 'Close']]
-    df.columns = ['High', 'Low', 'Close']
+    df = df[['High', 'Low', 'Close', 'Volume']]
+    df.columns = ['High', 'Low', 'Close', 'Volume']
     return df
 
 if __name__ == '__main__':
@@ -33,5 +34,7 @@ if __name__ == '__main__':
     st_data.to_csv('data/st_data.csv')
     wr_macd_data = get_wr_macd_signal(data)
     wr_macd_data.to_csv('data/wr_macd_data.csv')
+    obv_macd_rsi_data = get_obv_macd_rsi_signal(data)
+    obv_macd_rsi_data.to_csv('data/obv_macd_rsi_data.csv')
 
     print("Data saved to CSV files.")
